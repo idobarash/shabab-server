@@ -28,7 +28,7 @@ public class LoginService {
     private String url;
 
 
-    ObjectMapper mapper = new ObjectMapper();
+    private ObjectMapper mapper = new ObjectMapper();
 
     public String login(){
         return login(null);
