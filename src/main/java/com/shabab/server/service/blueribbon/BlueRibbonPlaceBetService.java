@@ -34,28 +34,33 @@ public class BlueRibbonPlaceBetService {
 
     public void dispatchPlaceBetToBlueRibbon(String playerId, Double amount) {
 
-        BlueRibbonPlaceBetRequest placeBetrequest =  generateRequest(playerId, amount);
+        BlueRibbonPlaceBetRequest placeBetRequest =  generateRequest(playerId, amount);
 
         String data = "";
         try {
 
-            data = objectMapper.writeValueAsString(placeBetrequest);
+            data = objectMapper.writeValueAsString(placeBetRequest);
 
             MediaType mediaType = MediaType.parse("application/json");
             RequestBody body = RequestBody.create(mediaType, data);
             Request request = new Request.Builder()
                     .url(url)
-                    .method("PUT", body)
+                    .method("POST", body)
                     .addHeader("Content-Type", "application/json")
+                    .addHeader("Authentication", "Bearer " + getAuth())
                     .build();
 
             Response response = okHttpClient.newCall(request).execute();
             String responseBody = response.body().string();
             log.info("Successfully applied place bet of {}. got {}", data, responseBody);
         } catch (IOException e) {
-            log.error("Error while trying to place bet request. sent {}, error Message: {}", data, e.getMessage());
+            log.error("Error while trying to place bet request. sent {}, error Message: {}", data, e.getMessage(), e);
         }
 
+    }
+
+    private String getAuth() {
+        return "aa";
     }
 
     private BlueRibbonPlaceBetRequest generateRequest(String playerId, Double amount) {
