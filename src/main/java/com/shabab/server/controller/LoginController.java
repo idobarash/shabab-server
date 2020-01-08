@@ -23,7 +23,7 @@ public class LoginController {
 
     @GetMapping(value="/player", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> loginPlayer(@RequestParam String playerId) {
-        String response = loginService.login(playerId);
+        String response = loginService.loginPlayer(playerId);
         return new ResponseEntity(response,HttpStatus.OK);
     }
 }
