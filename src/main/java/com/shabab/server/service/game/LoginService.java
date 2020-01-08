@@ -30,8 +30,12 @@ public class LoginService {
 
     ObjectMapper mapper = new ObjectMapper();
 
-    public String login() {
-        LoginRequest loginRequest = buildLoginRequest();
+    public String login(){
+        return login(null);
+    }
+
+    public String login(String playerId) {
+        LoginRequest loginRequest = buildLoginRequest(playerId);
         String responseBody = "";
         try {
             MediaType mediaType = MediaType.parse("application/json");
@@ -52,11 +56,12 @@ public class LoginService {
 
     }
 
-    private LoginRequest buildLoginRequest() {
+    private LoginRequest buildLoginRequest(String playerId) {
         LoginRequest loginRequest = new LoginRequest();
         AuthenticationData authenticationData = new AuthenticationData();
         authenticationData.setAuthenticationKey(accessKey);
         authenticationData.setAuthenticationSecret(secretKey);
+        authenticationData.setPlayerId(playerId != null ? playerId : null);
         loginRequest.setAuthenticationData(authenticationData);
         return loginRequest;
     }

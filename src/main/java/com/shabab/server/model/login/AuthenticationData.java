@@ -9,4 +9,6 @@ public class AuthenticationData {
 
     private String authenticationSecret;
 
+    private String playerId;
+
 }
