@@ -22,6 +22,8 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok:1.18.10")
 	testCompileOnly("org.projectlombok:lombok:1.18.10")
 	testAnnotationProcessor("org.projectlombok:lombok:1.18.10")
+	compile 'com.squareup.okhttp3:okhttp:3.12.0'
+	compile group: 'com.squareup.okhttp', name: 'logging-interceptor', version: '2.7.5'
 }
 
 test {
