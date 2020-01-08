@@ -1,5 +1,6 @@
 package com.shabab.server.service.game;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shabab.server.model.login.AuthenticationData;
 import com.shabab.server.model.login.LoginRequest;
@@ -25,26 +26,33 @@ public class LoginService {
     private String secretKey;
 
     @Value("${blueribbon.login.url}")
-    private String url;
+    private String loginUrl;
 
 
     private ObjectMapper mapper = new ObjectMapper();
 
-    public String login(){
-        return login(null);
-    }
 
-    public String login(String playerId) {
+    public String loginPlayer(String playerId) {
         LoginRequest loginRequest = buildLoginRequest(playerId);
         String responseBody = "";
         try {
-            MediaType mediaType = MediaType.parse("application/json");
-            RequestBody body = RequestBody.create(mediaType, mapper.writeValueAsString(loginRequest));
-            Request request = new Request.Builder()
-                    .url(url)
-                    .method("PUT", body)
-                    .addHeader("Content-Type", "application/json")
-                    .build();
+        Request request = buildRequestBody(loginRequest,loginUrl + "/player");
+
+            Response response = okHttpClient.newCall(request).execute();
+            responseBody = response.body().string();
+        } catch (IOException e) {
+            log.error("Error while trying to create login player request. Message: {}", e.getMessage());
+        }
+
+        return responseBody;
+
+    }
+
+    public String login() {
+        LoginRequest loginRequest = buildLoginRequest(null);
+        String responseBody = "";
+        try {
+            Request request = buildRequestBody(loginRequest,loginUrl);
 
             Response response = okHttpClient.newCall(request).execute();
             responseBody = response.body().string();
@@ -53,6 +61,17 @@ public class LoginService {
         }
 
         return responseBody;
+
+    }
+
+    private Request buildRequestBody(Object objectRequest,String requestUrl) throws JsonProcessingException {
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = RequestBody.create(mediaType, mapper.writeValueAsString(objectRequest));
+        return new Request.Builder()
+                .url(requestUrl)
+                .method("PUT", body)
+                .addHeader("Content-Type", "application/json")
+                .build();
 
     }
 
