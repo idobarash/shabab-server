@@ -19,7 +19,7 @@ public class JackpotWinController {
     @Autowired
     private JackpotWinService jackpotWinService;
 
-    @PostMapping("/")
+    @PostMapping
     public Map<String, Object> receiveBlueRibbonWinner(@RequestBody Map<String, Object> brResponse) {
 
         jackpotWinService.applyWin(brResponse);
