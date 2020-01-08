@@ -17,5 +17,5 @@ public class BlueRibbonPlaceBetRequest {
 
     private BlueRibbonPlayerDetails playerDetails;
 
-    private BlueRibbonWagerDetails blueRibbonWagerDetails;
+    private BlueRibbonWagerDetails wagerDetails;
 }

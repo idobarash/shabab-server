@@ -86,7 +86,7 @@ public class BlueRibbonPlaceBetService {
     private BlueRibbonPlaceBetRequest generateRequest(String playerId, Double amount) {
         return BlueRibbonPlaceBetRequest.builder()
                 .gameDetails(new BlueRibbonGameDetails(blueribbonGameId))
-                .blueRibbonWagerDetails(new BlueRibbonWagerDetails(amount, "EUR"))
+                .wagerDetails(new BlueRibbonWagerDetails(amount, "EUR"))
                 .playerDetails(new BlueRibbonPlayerDetails(playerId))
                 .operatorId(blueribbonOperatorId)
                 .build();
