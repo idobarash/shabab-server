@@ -1,6 +1,11 @@
 package com.shabab.server.controller;
 
+import com.shabab.server.service.game.LoginService;
+import okhttp3.OkHttpClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,8 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/login")
 public class LoginController {
 
-    @GetMapping("")
+    @Autowired
+    LoginService loginService;
+
+
+    @GetMapping(value="", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> login() {
-        return new ResponseEntity("Authorization successful",HttpStatus.OK);
+        String response = loginService.login();
+        return new ResponseEntity(response,HttpStatus.OK);
     }
 }
